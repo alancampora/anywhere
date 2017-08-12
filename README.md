@@ -1,6 +1,6 @@
 # anywhere
 
-> going anywhere
+> tell me where to go , anywhere is ok !
 
 ## Build Setup
 
