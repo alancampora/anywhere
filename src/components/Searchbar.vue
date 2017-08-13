@@ -28,7 +28,12 @@ export default{
         isLoading: {
             type:Boolean
         },
-        locationFrom:{cityName:""},
+        locationFrom:{
+            type: Object,
+            default: function () {
+                return {cityName:""}
+            }
+        },
         locationTo:{
             type: Object,
             default: function () {
@@ -84,12 +89,11 @@ export default{
 <style>
 .searchbar{
     display:flex;
-    margin-bottom: 20px;
     margin-top: 20px;
     margin-left:0;
     margin-right:0;
     padding :10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-bottom:1px solid rgba(0, 0, 0, 0.2);
 }
 .filter{
     list-style-type: none;

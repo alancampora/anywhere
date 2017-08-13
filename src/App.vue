@@ -1,21 +1,15 @@
 <template>
     <div id="app">
-        <h1>{{ msg }}</h1>
-        <results></results>
+        <layout></layout>
     </div>
 </template>
 
 <script>
-import Results from './components/Results.vue'
+import Layout from './components/Layout.vue'
 
 export default {
     name: 'app',
-    data () {
-        return {
-            msg: 'Tell me where to go, anywhere is ok'
-        }
-    },
-    components:{ Results }
+    components:{ Layout }
 }
 </script>
 
