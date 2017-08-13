@@ -33,14 +33,15 @@
                 results: [],
                 isLoading: false,
                 pages: null,
-                cityName:''
+                cityName:'',
+                currentPage: 1
             }
         },
         methods:{
-            search(){
+            search(page){
               this.isLoading = true;
               var geolocationOptions = {
-                enableHighAccuracy: false,
+                enableHighAccuracy: true,
                 maximumAge:Infinity
               };
 
@@ -56,7 +57,7 @@
                             this.cityName =res.address.city;
                         })
 
-                  blabla.search(position.coords)
+                  blabla.search(position.coords, this.currentPage)
                     .then(res =>
                       {
                           res.trips.forEach(trip => {
@@ -76,17 +77,17 @@
                           }
 
                         this.isLoading = false
-                        this.currentPage = res.pager.page
+                        this.currentPage += this.currentPage
                       })
                 })
                 .catch((err) => {
                   //TODO send message error
-                  console.error(err.message);
+                  console.error(err.message)
                 });
 
             },
             more(){
-                this.search();
+                this.search()
             }
         },
         created(){
