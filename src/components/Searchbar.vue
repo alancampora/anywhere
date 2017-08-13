@@ -2,11 +2,13 @@
     <div class="searchbar">
         <div class='from'>
             <span class='icon currentIcon'></span>
-            <input class='inputPosition'></input>
+            <input class='inputPosition' v-bind:value="from"></input>
         </div>
         <div class='to'>
             <span class='icon nextPositionIcon'></span>
             <input class='inputPosition' placeholder="Anywhere"></input>
+        </div>
+        <div class='settings'>
         </div>
     </div>
 </template>
@@ -15,16 +17,11 @@
 export default{
     name: "Searchbar",
     props: {
-        departure: {
+        from: {
             type: String
-        }
+        },
+        to: 'Anywhere'
     },
-    data(){
-        return{
-            from: 'From',
-            to: 'Anywhere'
-        }
-    }
 
 }
 </script>
@@ -40,11 +37,14 @@ export default{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .to{
-    flex-grow:2;
+    flex-grow:1;
 }
 .from{
-    flex-grow:2;
+    flex-grow:1;
     margin-right:10px;
+}
+.settings{
+    flex-grow:3;
 }
 .currentIcon{
     color:#009e47

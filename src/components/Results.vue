@@ -1,7 +1,7 @@
 <template>
 <div class="results">
         <loader v-show="isLoading"></loader>
-        <searchbar ></searchbar>
+        <searchbar :from="cityName"></searchbar>
         <div class="results__places">
             <card v-for="result in results"
                 :key="result.permanent_id"
@@ -19,6 +19,7 @@
 
 <script>
     import blabla from '../services/blabla'
+    import currentPositionService from '../services/currentPositionService'
     import Card from "./Card.vue"
     import Loader from "./Loader.vue"
     import Searchbar from "./Searchbar.vue"
@@ -31,7 +32,8 @@
                 query: "",
                 results: [],
                 isLoading: false,
-                pages: null
+                pages: null,
+                cityName:''
             }
         },
         methods:{
@@ -48,8 +50,12 @@
                 });
               }
 
-              getPosition()
-                .then((position) => {
+                getPosition()
+                    .then((position) => {
+                        currentPositionService.getCity(position.coords).then(res=>{
+                            this.cityName =res.address.city;
+                        })
+
                   blabla.search(position.coords)
                     .then(res =>
                       {
