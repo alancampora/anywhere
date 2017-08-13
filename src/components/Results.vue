@@ -5,6 +5,7 @@
         <div class="results__places">
             <card v-for="result in results"
                 :key="result.permanent_id"
+                :photo="result.formattedData.photo"
                 :departureDate="result.formattedData.departureDate"
                 :departureHour="result.formattedData.departureHour"
                 :duration = "result.formattedData.duration"
@@ -19,6 +20,7 @@
 
 <script>
     import blabla from '../services/blabla'
+    import flickr from '../services/flickr'
     import Card from "./Card.vue"
     import Loader from "./Loader.vue"
     import Searchbar from "./Searchbar.vue"
@@ -59,15 +61,25 @@
                               trip.formattedData.departureDate = splittedDate[0]
                               trip.formattedData.departureHour = splittedDate[1]
                               trip.formattedData.duration = Math.round(trip.duration.value / 3600)
+
+                              flickr.photoSearch(trip.arrival_place.latitude, trip.arrival_place.longitude)
+                                  .then( data => {
+                                      var photo = data.photos.photo[0]
+                                      trip.formattedData.photo =
+                                           `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`
+                                     //this is not ok
+                                     this.$forceUpdate();
+                                  })
+                                 .catch( error => console.log("error:", error))
                           })
 
-                          console.log("res" ,res);
                           if(this.results.length > 0){
                               this.results = this.results.concat(res.trips)
                           }
                           else{
                               this.results = res.trips
                           }
+
 
                         this.isLoading = false
                         this.currentPage += this.currentPage

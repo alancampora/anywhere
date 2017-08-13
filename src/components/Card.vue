@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <h2> {{arrivalPlace}}</h2>
-        <img class="card__img" src="../assets/img.png"></img>
+        <img class="card__img" v-bind:src="photo"></img>
         <p class="card__date">{{departureDate}}</p>
         <div class="card__wrapper">
             <p class="card__wrapper__hour"> Hour: {{departureHour}} </p>
@@ -25,6 +25,9 @@
             },
             arrivalPlace: {
                 type: String
+            },
+            photo: {
+                type: String
             }
         }
     }
@@ -37,7 +40,8 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .card__img{
-    width: 45%;
+    width: 100%;
+    max-height: 200px;
 }
 .card__date{
     font-size: .9rem;
