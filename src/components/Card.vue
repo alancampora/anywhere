@@ -15,7 +15,7 @@
         name: "Card",
         props: {
             duration:{
-                type: String
+                type: Number
             },
             departureDate: {
                 type: String
@@ -27,7 +27,7 @@
                 type: String
             }
         }
-    } 
+    }
 </script>
 
 <style>
@@ -44,9 +44,9 @@
 }
 
 .card__wrapper{
-    display: flex; 
+    display: flex;
 }
-.card__wrapper__hour, 
+.card__wrapper__hour,
 .card__wrapper__duration{
     flex:1;
     margin: 10px;
