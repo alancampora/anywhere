@@ -5,7 +5,9 @@
         <div class="results__places">
             <card v-for="result in results"
                 :key="result.permanent_id"
-                :departure="result.departure_date"
+                :departureDate="result.formattedData.departureDate"
+                :departureHour="result.formattedData.departureHour"
+                :duration = "result.formattedData.duration"
                 :arrivalPlace="result.arrival_place.city_name">
               </card>
         </div>
@@ -51,13 +53,22 @@
                   blabla.search(position.coords)
                     .then(res =>
                       {
-                        console.log(res)
+                          res.trips.forEach(trip => {
+                              var splittedDate = trip.departure_date.split(" ");
+                              trip.formattedData = {}
+                              trip.formattedData.departureDate = splittedDate[0]
+                              trip.formattedData.departureHour = splittedDate[1]
+                              trip.formattedData.duration = Math.round(trip.duration.value / 3600)
+                          })
+
+                          console.log("res" ,res);
                           if(this.results.length > 0){
                               this.results = this.results.concat(res.trips)
                           }
                           else{
                               this.results = res.trips
                           }
+
                         this.isLoading = false
                         this.currentPage = res.pager.page
                       })
