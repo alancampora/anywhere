@@ -51,7 +51,7 @@
     width: 100%;
     background-color: rgba(157, 187, 63, 0.85);
     margin: 0;
-    color: white;
+    font-weight: 900;
 }
 .card__header__img{
     margin: 0;
