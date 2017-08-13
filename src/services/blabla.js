@@ -9,7 +9,7 @@ blablaService.search = function(query,page) {
   let url = this.baseUrl
 
   // add latitude | longitude
-  url += blablaService.lat + query.latitude +"&"+ blablaService.lon + query.longitude +"&"+ blablaService.page + page;
+  url += blablaService.lat + query.lat+"&"+ blablaService.lon + query.lon+"&"+ blablaService.page + page;
 
 
   return fetch(url, {
