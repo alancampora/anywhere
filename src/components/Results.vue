@@ -112,6 +112,7 @@
 .results__places{
     display:flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 </style>
 
