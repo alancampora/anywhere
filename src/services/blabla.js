@@ -1,15 +1,15 @@
 const blablaService = {
-  baseUrl: "https://public-api.blablacar.com/api/v2/trips?",
-  key: "key=bec1eafb73de4b77a3934f0b7088d674",
-  fc: "fc=",
-  page: "page="
+  baseUrl: "http://localhost:3500/get/blabla/?",
+  lat: "lat=",
+  lon: "lon=",
+  page: "page=",
 }
 
 blablaService.search = function(query,page) {
-  let url = `${this.baseUrl}`
+  let url = this.baseUrl
 
   // add latitude | longitude
-  url += blablaService.fc + encodeURI(query.latitude + '|' + query.longitude) +"&"+ blablaService.key + "&"+ blablaService.page + page;
+  url += blablaService.lat + query.latitude +"&"+ blablaService.lon + query.longitude +"&"+ blablaService.page + page;
 
 
   return fetch(url, {

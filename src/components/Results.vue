@@ -5,11 +5,11 @@
         <div class="results__places">
             <card v-for="result in results"
                 :key="result.permanent_id"
-                :photo="result.formattedData.photo"
-                :departureDate="result.formattedData.departureDate"
-                :departureHour="result.formattedData.departureHour"
-                :duration = "result.formattedData.duration"
-                :arrivalPlace="result.arrival_place.city_name">
+                :photo="result.photo"
+                :departureDate="result.departureDate"
+                :departureHour="result.departureHour"
+                :duration = "result.duration"
+                :arrivalPlace="result.arrivalPlace.cityName">
               </card>
         </div>
         <button class="results__more" v-on:click="more">
@@ -67,17 +67,11 @@
                   blabla.search(position.coords, this.currentPage)
                     .then(res =>
                       {
-                          res.trips.forEach(trip => {
-                              var splittedDate = trip.departure_date.split(" ");
-                              trip.formattedData = {}
-                              trip.formattedData.departureDate = splittedDate[0]
-                              trip.formattedData.departureHour = splittedDate[1]
-                              trip.formattedData.duration = Math.round(trip.duration.value / 3600)
-
-                              flickr.photoSearch(trip.arrival_place.latitude, trip.arrival_place.longitude)
+                          res.forEach(trip => {
+                              flickr.photoSearch(trip.arrivalPlace.latitude, trip.arrivalPlace.longitude)
                                   .then( data => {
                                       var photo = data.photos.photo[0]
-                                      trip.formattedData.photo =
+                                      trip.photo =
                                            `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`
                                      //this is not ok
                                      this.$forceUpdate();
@@ -86,12 +80,11 @@
                           })
 
                           if(this.results.length > 0){
-                              this.results = this.results.concat(res.trips)
+                              this.results = this.results.concat(res)
                           }
                           else{
-                              this.results = res.trips
+                              this.results = res
                           }
-
 
                         this.isLoading = false
                         this.currentPage += this.currentPage
