@@ -1,7 +1,7 @@
 <template>
 <div class="results">
         <loader v-show="isLoading"></loader>
-        <searchbar ></searchbar>
+        <searchbar :from="cityName"></searchbar>
         <div class="results__places">
             <card v-for="result in results"
                 :key="result.permanent_id"
@@ -21,6 +21,7 @@
 <script>
     import blabla from '../services/blabla'
     import flickr from '../services/flickr'
+    import currentPositionService from '../services/currentPositionService'
     import Card from "./Card.vue"
     import Loader from "./Loader.vue"
     import Searchbar from "./Searchbar.vue"
@@ -33,6 +34,8 @@
                 query: "",
                 results: [],
                 isLoading: false,
+                pages: null,
+                cityName:'',
                 currentPage: 1
             }
         },
@@ -40,7 +43,7 @@
             search(page){
               this.isLoading = true;
               var geolocationOptions = {
-                enableHighAccuracy: false,
+                enableHighAccuracy: true,
                 maximumAge:Infinity
               };
 
@@ -50,8 +53,12 @@
                 });
               }
 
-              getPosition()
-                .then((position) => {
+                getPosition()
+                    .then((position) => {
+                        currentPositionService.getCity(position.coords).then(res=>{
+                            this.cityName =res.address.city;
+                        })
+
                   blabla.search(position.coords, this.currentPage)
                     .then(res =>
                       {
