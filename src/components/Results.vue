@@ -1,14 +1,15 @@
-<template>    
+<template>
 <div class="results">
         <loader v-show="isLoading"></loader>
-        <div class="results__places"> 
-            <card v-for="result in results" 
+        <searchbar ></searchbar>
+        <div class="results__places">
+            <card v-for="result in results"
                 :key="result.permanent_id"
                 :departure="result.departure_date"
-                :arrivalPlace="result.arrival_place.city_name"> 
+                :arrivalPlace="result.arrival_place.city_name">
               </card>
         </div>
-        <button class="results__more" v-on:click="more"> 
+        <button class="results__more" v-on:click="more">
             <p> More Results </p>
         </button>
     </div>
@@ -18,24 +19,24 @@
     import blabla from '../services/blabla'
     import Card from "./Card.vue"
     import Loader from "./Loader.vue"
+    import Searchbar from "./Searchbar.vue"
 
     export default{
         name: "Results",
-        components:{ Card, Loader}, 
+        components:{ Card, Loader, Searchbar},
         data(){
             return{
                 query: "",
-                results: [], 
-                isLoading: false, 
+                results: [],
+                isLoading: false,
                 pages: null
             }
-        }, 
+        },
         methods:{
             search(){
               this.isLoading = true;
               var geolocationOptions = {
                 enableHighAccuracy: false,
-                timeout: 10000,
                 maximumAge:Infinity
               };
 
@@ -51,7 +52,7 @@
                     .then(res =>
                       {
                         console.log(res)
-                          if(this.results.length > 0){ 
+                          if(this.results.length > 0){
                               this.results = this.results.concat(res.trips)
                           }
                           else{
@@ -66,13 +67,13 @@
                   console.error(err.message);
                 });
 
-            }, 
+            },
             more(){
                 this.search();
             }
-        }, 
+        },
         created(){
-            this.search()            
+            this.search()
         }
     }
 </script>
