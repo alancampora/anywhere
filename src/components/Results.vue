@@ -1,5 +1,6 @@
 <template>    
 <div class="results">
+        <loader v-show="isLoading"></loader>
         <div class="results__places"> 
             <card v-for="result in results" 
                 :key="result.permanent_id"
@@ -16,10 +17,11 @@
 <script>
     import blabla from '../services/blabla'
     import Card from "./Card.vue"
+    import Loader from "./Loader.vue"
 
     export default{
         name: "Results",
-        components:{ Card }, 
+        components:{ Card, Loader}, 
         data(){
             return{
                 query: "",
