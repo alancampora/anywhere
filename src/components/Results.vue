@@ -1,7 +1,7 @@
 <template>
 <div class="results">
         <loader v-show="isLoading"></loader>
-        <searchbar :from="cityName"></searchbar>
+        <searchbar :locationFrom="cityFrom" @changePosition="changePosition" ></searchbar>
         <div class="results__places">
             <card v-for="result in results"
                 :key="result.permanent_id"
@@ -35,7 +35,8 @@
                 results: [],
                 isLoading: false,
                 pages: null,
-                cityName:'',
+                cityTo:'',
+                cityFrom:'',
                 currentPage: 1
             }
         },
@@ -48,7 +49,7 @@
               };
 
               var getPosition = function (options) {
-                return new Promise(function (resolve, reject) {
+                  return new Promise((resolve, reject) =>{
                   navigator.geolocation.getCurrentPosition(resolve, reject, geolocationOptions);
                 });
               }
@@ -56,7 +57,11 @@
                 getPosition()
                     .then((position) => {
                         currentPositionService.getCity(position.coords).then(res=>{
-                            this.cityName =res.address.city;
+                            this.cityFrom={
+                                cityName:res.address.city,
+                                lat:res.lat,
+                                lon:res.lon,
+                            }
                         })
 
                   blabla.search(position.coords, this.currentPage)
@@ -93,6 +98,9 @@
             },
             more(){
                 this.search()
+            },
+            changePosition(){
+
             }
         },
         created(){
@@ -105,6 +113,7 @@
 .results__places{
     display:flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 </style>
 

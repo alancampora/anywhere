@@ -1,28 +1,83 @@
 <template>
-    <div class="searchbar">
-        <div class='from'>
-            <span class='icon currentIcon'></span>
-            <input class='inputPosition' v-bind:value="from"></input>
+    <div>
+        <div class="searchbar">
+            <div class='from'>
+                <span class='icon currentIcon'></span>
+                <input class='inputPosition' v-model="locationFrom.cityName" @change="onChangeFrom()" v-bind:value="locationFrom.cityName"></input>
+            </div>
+            <div class='to'>
+                <span class='icon nextPositionIcon'></span>
+                <input class='inputPosition' v-model="locationTo.cityName" @change="onChangeTo()" placeholder="toPlaceholder"></input>
+            </div>
+            <div class='settings'>
+            </div>
         </div>
-        <div class='to'>
-            <span class='icon nextPositionIcon'></span>
-            <input class='inputPosition' placeholder="Anywhere"></input>
-        </div>
-        <div class='settings'>
-        </div>
+        <ul class="filter places" v-bind:class="isSearching">
+            <li class='nameListItem' v-on:click="selected(place)" v-for="place in places">{{place.display_name}}</li>
+        </ul>
     </div>
 </template>
 
 <script>
+
+import currentPositionService from '../services/currentPositionService'
+
 export default{
     name: "Searchbar",
     props: {
-        from: {
-            type: String
+        isLoading: {
+            type:Boolean
         },
-        to: 'Anywhere'
+        locationFrom:{cityName:""},
+        locationTo:{
+            type: Object,
+            default: function () {
+                return {cityName:""}
+            }
+        },
+        selectedItem:"",
+        toPlaceholder: 'Anywhere',
+        searchLaunched:false,
+        changeFrom:false,
+        changeTo:false,
+        places:[]
     },
-
+    computed:{
+        isSearching(){
+            return {
+                showSearch:this.searchLaunched
+            };
+        }
+    },
+    methods:{
+        onChangeTo(data){
+            this.changeTo = true;
+            this.searchPlacesByName( this.locationTo.cityName);
+        },
+        onChangeFrom(data){
+            this.changeFrom = true;
+            this.searchPlacesByName(this.locationFrom.cityName);
+        },
+        searchPlacesByName(name){
+            this.searchLaunched = true;
+            currentPositionService.getCityByString(name).
+                then((data)=>{
+                    this.places = data;
+                })
+        },
+        selected(place){
+            this.searchLaunched = false;
+            let newSelected = {cityName:place.display_name,lat:place.lat,lon:place.lon};
+            if(this.changeTo){
+                this.locationTo = newSelected;
+            }else{
+                this.locationFrom= newSelected;
+            }
+            this.changeTo=false;
+            this.changeFrom=false;
+            this.$emit('change',{from:this.locationFrom, to:this.locationTo})
+        }
+    }
 }
 </script>
 
@@ -36,12 +91,39 @@ export default{
     padding :10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+.filter{
+    list-style-type: none;
+    padding: 0;
+    background: white;
+    border: 1px solid;
+    margin-top: -30px;
+    width: auto;
+    z-index: 2;
+    position: absolute;
+    margin-left: 25%;
+    margin-right: 25%;
+    display:none;
+    visibility: visible;
+}
+.showSearch{
+    display:block;
+    visibility: none;
+}
 .to{
     flex-grow:1;
 }
 .from{
     flex-grow:1;
     margin-right:10px;
+}
+.nameListItem{
+    display:block;
+    padding:10px;
+    margin:0;
+}
+.nameListItem:hover{
+    background-color:#009e47;
+    color:white;
 }
 .settings{
     flex-grow:3;
