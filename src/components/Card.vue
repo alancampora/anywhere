@@ -1,7 +1,9 @@
 <template>
     <div class="card">
-        <h2> {{arrivalPlace}}</h2>
-        <img class="card__img" v-bind:src="photo"></img>
+        <div class="card__header">
+            <h2 class="card__header__text"> {{arrivalPlace}}</h2>
+            <img class="card__header__img" v-bind:src="photo"></img>
+        </div>
         <p class="card__date">{{departureDate}}</p>
         <div class="card__wrapper">
             <p class="card__wrapper__hour"> Hour: {{departureHour}} </p>
@@ -37,12 +39,26 @@
 .card{
     margin: 20px;
     width: 300px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: box-shadow 0.9s ease-in-out;
 }
-.card__img{
+.card__header{
+    position:relative;
+}
+.card__header__text{
+    position: absolute;
+    bottom: 10px;
     width: 100%;
-    max-height: 200px;
+    background-color: rgba(157, 187, 63, 0.85);
+    margin: 0;
+    font-weight: 900;
 }
+.card__header__img{
+    margin: 0;
+    width: 100%;
+    height: 200px;
+}
+
 .card__date{
     font-size: .9rem;
 }
