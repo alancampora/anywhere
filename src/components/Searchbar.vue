@@ -24,28 +24,30 @@ import currentPositionService from '../services/currentPositionService'
 
 export default{
     name: "Searchbar",
-    props: {
-        isLoading: {
-            type:Boolean
-        },
-        locationFrom:{
-            type: Object,
-            default: function () {
-                return {cityName:""}
-            }
-        },
-        locationTo:{
-            type: Object,
-            default: function () {
-                return {cityName:""}
-            }
-        },
-        selectedItem:"",
-        toPlaceholder: 'Anywhere',
-        searchLaunched:false,
-        changeFrom:false,
-        changeTo:false,
-        places:[]
+    data(){
+        return {
+            isLoading: {
+                type:Boolean
+            },
+            locationFrom:{
+                type: Object,
+                default: function () {
+                    return {cityName:""}
+                }
+            },
+            locationTo:{
+                type: Object,
+                default: function () {
+                    return {cityName:""}
+                }
+            },
+            selectedItem:"",
+            toPlaceholder: 'Anywhere',
+            searchLaunched:false,
+            changeFrom:false,
+            changeTo:false,
+            places:[]
+        }
     },
     computed:{
         isSearching(){

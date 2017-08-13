@@ -22,28 +22,25 @@ export default {
     name: "Layout",
     components:{ Loader, Searchbar,Results},
     props:{
-        query: "",
         msg:{
             type:String,
             default: 'Tell me where to go, anywhere is ok'
-        },
-        results: {
-            type:Array,
-            default:function(){
-                return []
-            }
-        },
-        isLoading: false,
-        pages: null,
-        cityTo:'',
-        cityFrom:'',
-        currentPage: {
-            type: Number,
-            default : 1
+        }
+    },
+    data(){
+        return {
+            query: "",
+            results: [],
+            isLoading: false,
+            pages: null,
+            cityTo:'',
+            cityFrom:'',
+            currentPage: 1
         }
     },
     methods:{
         search(page){
+            let _self = this;
             this.isLoading = true;
             var geolocationOptions = {
                 enableHighAccuracy: true,
@@ -59,7 +56,7 @@ export default {
             getPosition()
                 .then((position) => {
                     currentPositionService.getCity(position.coords).then(res=>{
-                        this.cityFrom={
+                        _self.cityFrom={
                             cityName:res.address.city,
                             lat:res.lat,
                             lon:res.lon,
