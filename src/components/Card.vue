@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card" v-on:click.capture='onClickCard()'>
         <div class="card__header">
             <h2 class="card__header__text"> {{arrivalPlace}}</h2>
             <img class="card__header__img" v-bind:src="photo"></img>
@@ -30,6 +30,11 @@
             },
             photo: {
                 type: String
+            }
+        },
+        methods:{
+            onClickCard(){
+                this.$emit('click')
             }
         }
     }

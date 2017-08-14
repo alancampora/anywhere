@@ -7,7 +7,7 @@
             </div>
             <div class='to'>
                 <span class='icon nextPositionIcon'></span>
-                <input class='inputPosition' v-model="locationTo.cityName" @change="onChangeTo()" placeholder="toPlaceholder"></input>
+                <input class='inputPosition' v-bind:value="locationTo.cityName" @change="onChangeTo()" placeholder="toPlaceholder"></input>
             </div>
             <div class='settings'>
             </div>
@@ -24,25 +24,22 @@ import currentPositionService from '../services/currentPositionService'
 
 export default{
     name: "Searchbar",
+    props:{
+        toPlaceholder:"Anywhere"
+    },
     data(){
         return {
-            isLoading: {
-                type:Boolean
-            },
             locationFrom:{
-                type: Object,
-                default: function () {
-                    return {cityName:""}
-                }
+                cityName:'',
+                lat:0,
+                lon:0
             },
             locationTo:{
-                type: Object,
-                default: function () {
-                    return {cityName:""}
-                }
+                cityName:'',
+                lat:0,
+                lon:0
             },
             selectedItem:"",
-            toPlaceholder: 'Anywhere',
             searchLaunched:false,
             changeFrom:false,
             changeTo:false,

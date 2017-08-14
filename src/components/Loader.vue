@@ -12,7 +12,7 @@ export default {
 
 <style scoped>
 .loader-container{
-    position:absolute;
+    position:fixed;
     width:100%;
     height:100%;
     z-index:3;

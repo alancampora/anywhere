@@ -3,9 +3,9 @@
         <loader v-show="isLoading"></loader>
         <div class='header'>
             <h1>{{ msg }}</h1>
-            <searchbar :locationFrom="cityFrom" @change="changePosition" ></searchbar>
+            <searchbar v-bind:locationFrom="cityFrom" @change="changePosition" ></searchbar>
         </div>
-        <results :results="results" @more="more"></results>
+      <router-view :results="results" @more='more'></router-view>
     </div>
 </template>
 
@@ -13,6 +13,7 @@
 import Loader from "./Loader.vue"
 import Searchbar from "./Searchbar.vue"
 import Results from "./Results.vue"
+import Router from "../router.js"
 
 import currentPositionService from '../services/currentPositionService'
 import blabla from '../services/blabla'
@@ -33,8 +34,16 @@ export default {
             results: [],
             isLoading: false,
             pages: null,
-            cityTo:'',
-            cityFrom:'',
+            cityTo:{
+                cityName:'',
+                lat:0,
+                lon:0
+            },
+            cityFrom:{
+                cityName:'',
+                lat:0,
+                lon:0
+            },
             currentPage: 1
         }
     },
@@ -56,11 +65,9 @@ export default {
             getPosition()
                 .then((position) => {
                     currentPositionService.getCity(position.coords).then(res=>{
-                        _self.cityFrom={
-                            cityName:res.address.city,
-                            lat:res.lat,
-                            lon:res.lon,
-                        }
+                        _self.cityFrom.cityName=res.address.city;
+                        _self.cityFrom.lat=res.lat;
+                        _self.cityFrom.lon=res.lon;
                     })
                     this.searchTrips({from:{lat:position.coords.latitude,lon:position.coords.longitude}},this.currentPage)
                 })
